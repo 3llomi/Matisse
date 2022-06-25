@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 apply plugin: 'com.android.library'
-apply plugin: 'com.novoda.bintray-release'
+apply plugin: 'maven-publish'
 apply plugin: 'checkstyle'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion '29.0.2'
 
     defaultConfig {
         minSdkVersion 14
@@ -46,15 +45,20 @@ dependencies {
     compileOnly 'com.squareup.picasso:picasso:2.5.2'
 }
 
-// jcenter configuration for novoda's bintray-release
-// $ ./gradlew clean build bintrayUpload -PbintrayUser=BINTRAY_USERNAME -PbintrayKey=BINTRAY_KEY -PdryRun=false
-publish {
-    userOrg = 'zhihu'
-    groupId = 'com.zhihu.android'
-    artifactId = 'matisse'
-    publishVersion = '0.5.3-beta3'
-    desc = 'A well-designed local image selector for Android'
-    website = 'https://www.zhihu.com/'
+afterEvaluate {
+    publishing {
+        publications {
+            // Creates a Maven publication called "release".
+            release(MavenPublication) {
+                // Applies the component for the release build variant.
+                from components.release
+                // You can then customize attributes of the publication as shown below.
+                groupId = 'com.zhihu.android'
+                artifactId = 'matisse'
+                version = '0.5.3-beta3-fix1'
+            }
+        }
+    }
 }
 
 task javadoc(type: Javadoc) {
