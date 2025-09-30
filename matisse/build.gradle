@@ -18,29 +18,37 @@ apply plugin: 'maven-publish'
 apply plugin: 'checkstyle'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 36
 
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 29
+        minSdkVersion 21
+        targetSdkVersion 34
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     lintOptions {
         abortOnError false
     }
+
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
+    namespace 'com.zhihu.matisse'
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation "androidx.appcompat:appcompat:1.1.0"
+    implementation "androidx.activity:activity:1.11.0"
     implementation "androidx.annotation:annotation:1.1.0"
     implementation "androidx.recyclerview:recyclerview:1.0.0"
     implementation 'it.sephiroth.android.library.imagezoom:library:1.0.4'
-
     compileOnly 'com.github.bumptech.glide:glide:4.9.0'
     compileOnly 'com.squareup.picasso:picasso:2.5.2'
 }
@@ -55,7 +63,7 @@ afterEvaluate {
                 // You can then customize attributes of the publication as shown below.
                 groupId = 'com.zhihu.android'
                 artifactId = 'matisse'
-                version = '0.5.3-beta3-fix1'
+                version = '0.5.3-beta4'
             }
         }
     }
